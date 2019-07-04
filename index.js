@@ -1,14 +1,23 @@
 const express = require('express');
 const path = require('path')
+const exphbs = require('express-handlebars')
 //const router = require('router')
 
 
 const logger1 = require('./middleware/logger1')
 
 const app = express();
+//handlebars middleware
+app.engine('handlebars', exphbs({defaultlayout: 'main'}));
+app.set('view engine', 'handlebars');
 
 //init middleware
 app.use(logger1);
+
+//body parser middleware
+
+app.use(express.json());
+app.use(express.urlencoded({extended:true})); //for handle form submission
 
 //set a static folder
 app.use(express.static(path.join(__dirname,'public')));
